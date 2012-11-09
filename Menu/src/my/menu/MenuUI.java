@@ -7,6 +7,7 @@ package my.menu;
 import java.awt.*;
 import java.io.*;
 import javax.swing.*;
+import java.util.ArrayList;
 
 /**
  *
@@ -187,14 +188,11 @@ public class MenuUI extends javax.swing.JFrame {
         String username;
         String password;
         char [] p;
-        //String [] name;
-        //String [] pass;
+        
         username = jTextField1.getText();
         p = jPasswordField1.getPassword();
         password = new String(p);
-        //name = username.split("\\s+");
-        //pass = password.split("\\s+");
-
+       
         if(User.isValidAccount(username)){
                  jLabel5.setText("This username is already taken");
                  jLabel5.setForeground(Color.red);
@@ -239,7 +237,32 @@ public class MenuUI extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
-        //JOptionPane.ShowMessageDialogue(null, "yo aman");
+       
+       ArrayList<Score> scores;
+       Object[][] data= new Object [10][2];
+       String [] columns =  {"PLayer","Score"};
+             
+       scores = Score.mergeSortList(Score.getHighScores());
+       
+       for(int i =0; i<10;i++){
+           data[i][0] = scores.get(i).getPlayer();
+           data[i][1] = scores.get(i).getScore();
+       }
+       //{{"Aenoy", new Integer(12)},{"Julien", new Integer(14)}, {"James", new Integer(98)},{"Lixuan", new Integer(4)}};
+       
+       JTable scoreTable;
+       
+       scoreTable = new JTable(data, columns)
+       {
+           public boolean isCellEditable(int data , int column){
+               return false;
+           }
+       };
+       
+       JFrame f = new JFrame();
+       f.setSize(300,300);
+       f.add(new JScrollPane(scoreTable));
+       f.setVisible(true);
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jPasswordField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jPasswordField1ActionPerformed
